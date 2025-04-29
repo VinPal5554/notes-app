@@ -1,17 +1,17 @@
 // Function to fetch notes from the backend and display them
 function fetchNotes() {
-    fetch('http://localhost:3001/notes')
-      .then(response => response.json())
-      .then(data => {
-        const notesList = document.getElementById('notes-list');
-        notesList.innerHTML = '';  // Clear existing notes
-        data.forEach(note => {
-          const noteElement = document.createElement('p');
-          noteElement.textContent = note;
-          notesList.appendChild(noteElement);
-        });
+  fetch('http://localhost:3001/notes')
+    .then(response => response.json())
+    .then(data => {
+      const notesList = document.getElementById('notes-list');
+      notesList.innerHTML = ''; // Clear existing notes
+      data.forEach(note => {
+        const noteElement = document.createElement('p');
+        noteElement.textContent = note.content; // Access the 'content' property
+        notesList.appendChild(noteElement);
       });
-  }
+    });
+}
   
   // Function to add a new note to the backend
   function addNote() {

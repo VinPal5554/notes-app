@@ -1,36 +1,49 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
+import mongoose from 'mongoose';
+import Note from './noteModel'; // assuming same folder
+
+mongoose.connect('mongodb://127.0.0.1:27017/notes-app')
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 const app = express();
 
-// Middleware to enable CORS
+// Middleware to enable CORS and parse JSON requests
 app.use(cors());
-
-// Middleware to parse JSON requests
 app.use(express.json());
 
-// Temporary in-memory store for notes
-const notes: string[] = [];
+// Serve static files from "public" folder
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 
-// Root route (/) to show a basic message
-app.get('/', (req, res) => {
-  res.send('Welcome to the Notes App!');
-});
+//const notes: string[] = [];
+
+// API ROUTES
 
 // GET route for notes
-app.get('/notes', (req, res) => {
-  res.json(notes);  // Returning an empty array as a placeholder for notes
+app.get('/notes', async (_req: Request, res: Response): Promise<void> => {
+  const notes = await Note.find();
+  res.json(notes);
 });
 
 // Route to add a new note
-app.post('/notes', (req, res) => {
-  const { note } = req.body;  // Extract the note from the request body
-  if (note) {
-    notes.push(note);  // Add the new note to the array
-    res.json({ message: 'Note added!' });
-  } else {
+app.post('/notes', async (req: Request, res: Response): Promise<void> => {
+  const { note } = req.body;
+  if (!note) {
     res.status(400).json({ message: 'Note content is required!' });
+    return;
   }
+
+  await Note.create({ content: note });
+  res.json({ message: 'Note added!' });
+});
+
+
+// Fallback to index.html for root route
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
 
