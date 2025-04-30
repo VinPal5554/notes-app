@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>Notes App</title>
 </head>
 <body>
-  <h1>Notes App</h1>
-  <div id="notes-list"></div>
-
-  <h2>Add a new note:</h2>
-  <input type="text" id="note-input" placeholder="Enter note">
-  <button onclick="addNote()">Add Note</button>
+  <div class="max-w-xl mx-auto mt-10">
+    <h1 class="text-3xl font-bold text-center mb-6">Notes App</h1>
+    <div class="flex gap-2 mb-4">
+      <input type="text" id="note-input" placeholder="Enter note"
+        class="flex-grow px-4 py-2 border rounded" />
+      <button onclick="addNote()" class="bg-blue-500 text-white px-4 py-2 rounded">Add Note</button>
+    </div>
+    <div id="notes-list" class="space-y-2"></div>
+  </div>
 
   <script src="app.js"></script>
 </body>

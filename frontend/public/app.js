@@ -4,13 +4,26 @@ function fetchNotes() {
     .then(response => response.json())
     .then(data => {
       const notesList = document.getElementById('notes-list');
-      notesList.innerHTML = ''; // Clear existing notes
+      notesList.innerHTML = '';
       data.forEach(note => {
-        const noteElement = document.createElement('p');
-        noteElement.textContent = note.content; // Access the 'content' property
+        const noteElement = document.createElement('div');
+        noteElement.className = "bg-white p-3 border rounded flex justify-between items-center";
+        noteElement.innerHTML = `
+          <p>${note.content}</p>
+          <button onclick="deleteNote('${note._id}')">Delete</button>
+        `;
         notesList.appendChild(noteElement);
       });
     });
+}
+
+function deleteNote(id) {
+  fetch(`http://localhost:3001/notes/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .then(() => fetchNotes())
+    .catch(error => console.error('Error deleting note:', error));
 }
   
   // Function to add a new note to the backend

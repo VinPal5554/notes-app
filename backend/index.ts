@@ -46,6 +46,20 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
+app.delete('/notes/:id', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const deletedNote = await Note.findByIdAndDelete(id);
+    if (deletedNote) {
+      res.json({ message: 'Note deleted!' });
+    } else {
+      res.status(404).json({ message: 'Note not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 // Start the server
 const port = 3001;
