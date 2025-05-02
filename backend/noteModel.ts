@@ -2,8 +2,9 @@ import mongoose from 'mongoose';
 
 const noteSchema = new mongoose.Schema({
   content: { type: String, required: true },
-}, { timestamps: true });
+  category: { type: String }, // New field for category/tag
+  createdAt: { type: Date, default: Date.now }
+});
 
-const Note = mongoose.model('Note', noteSchema);
-export default Note;
+export default mongoose.model('Note', noteSchema);
 

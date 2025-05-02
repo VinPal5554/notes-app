@@ -30,13 +30,13 @@ app.get('/notes', async (_req: Request, res: Response): Promise<void> => {
 
 // Route to add a new note
 app.post('/notes', async (req: Request, res: Response): Promise<void> => {
-  const { note } = req.body;
+  const { note, category } = req.body;
   if (!note) {
     res.status(400).json({ message: 'Note content is required!' });
     return;
   }
 
-  await Note.create({ content: note });
+  await Note.create({ content: note, category });
   res.json({ message: 'Note added!' });
 });
 
@@ -64,14 +64,14 @@ app.delete('/notes/:id', async (req: Request, res: Response): Promise<void> => {
 app.put('/notes/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
+    const { content, category } = req.body;
 
     if (!content) {
       res.status(400).json({ message: 'Updated content is required!' });
       return;
     }
 
-    const updatedNote = await Note.findByIdAndUpdate(id, { content }, { new: true });
+    const updatedNote = await Note.findByIdAndUpdate(id, { content, category }, { new: true });
 
     if (updatedNote) {
       res.json({ message: 'Note updated!', note: updatedNote });

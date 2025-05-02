@@ -7,11 +7,24 @@ function fetchNotes() {
       notesList.innerHTML = '';
       data.forEach(note => {
         const noteElement = document.createElement('div');
-        noteElement.className = "bg-white p-3 border rounded mb-2 flex justify-between items-center";
+        noteElement.className = "bg-white p-3 border rounded mb-2";
+      
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = "flex justify-between items-center";
+      
+        const textGroup = document.createElement('div');
+        textGroup.className = "flex flex-col flex-grow";
       
         const noteContent = document.createElement('p');
         noteContent.textContent = note.content;
-        noteContent.className = "flex-grow";
+        noteContent.className = "mb-1";
+      
+        const categoryLabel = document.createElement('span');
+        categoryLabel.className = "text-sm text-gray-500";
+        categoryLabel.textContent = `Category: ${note.category || 'Uncategorized'}`;
+      
+        textGroup.appendChild(noteContent);
+        textGroup.appendChild(categoryLabel);
       
         const editInput = document.createElement('input');
         editInput.value = note.content;
@@ -42,7 +55,7 @@ function fetchNotes() {
             fetch(`http://localhost:3001/notes/${note._id}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ content: updatedContent })
+              body: JSON.stringify({ content: updatedContent, category: note.category }) // optional
             })
               .then(() => fetchNotes());
           }
@@ -54,10 +67,11 @@ function fetchNotes() {
         buttonGroup.appendChild(saveButton);
         buttonGroup.appendChild(deleteButton);
       
-        noteElement.appendChild(noteContent);
-        noteElement.appendChild(editInput);
-        noteElement.appendChild(buttonGroup);
+        contentWrapper.appendChild(textGroup);
+        contentWrapper.appendChild(editInput);
+        contentWrapper.appendChild(buttonGroup);
       
+        noteElement.appendChild(contentWrapper);
         notesList.appendChild(noteElement);
       });
     });
@@ -75,18 +89,21 @@ function deleteNote(id) {
   // Function to add a new note to the backend
   function addNote() {
     const noteInput = document.getElementById('note-input');
+    const categoryInput = document.getElementById('note-category');
     const noteText = noteInput.value.trim();
+    const categoryText = categoryInput ? categoryInput.value.trim() : '';
+  
     if (noteText) {
-      // Send POST request to add the new note
       fetch('http://localhost:3001/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ note: noteText })
+        body: JSON.stringify({ note: noteText, category: categoryText })
       })
         .then(response => response.json())
         .then(() => {
-          noteInput.value = '';  // Clear the input field
-          fetchNotes();  // Refresh the notes list
+          noteInput.value = '';
+          if (categoryInput) categoryInput.value = '';
+          fetchNotes();
         })
         .catch(error => console.error('Error adding note:', error));
     }
