@@ -60,6 +60,29 @@ app.delete('/notes/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+// Route to update a note
+app.put('/notes/:id', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+
+    if (!content) {
+      res.status(400).json({ message: 'Updated content is required!' });
+      return;
+    }
+
+    const updatedNote = await Note.findByIdAndUpdate(id, { content }, { new: true });
+
+    if (updatedNote) {
+      res.json({ message: 'Note updated!', note: updatedNote });
+    } else {
+      res.status(404).json({ message: 'Note not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 // Start the server
 const port = 3001;

@@ -7,11 +7,57 @@ function fetchNotes() {
       notesList.innerHTML = '';
       data.forEach(note => {
         const noteElement = document.createElement('div');
-        noteElement.className = "bg-white p-3 border rounded flex justify-between items-center";
-        noteElement.innerHTML = `
-          <p>${note.content}</p>
-          <button onclick="deleteNote('${note._id}')">Delete</button>
-        `;
+        noteElement.className = "bg-white p-3 border rounded mb-2 flex justify-between items-center";
+      
+        const noteContent = document.createElement('p');
+        noteContent.textContent = note.content;
+        noteContent.className = "flex-grow";
+      
+        const editInput = document.createElement('input');
+        editInput.value = note.content;
+        editInput.style.display = 'none';
+        editInput.className = "flex-grow border p-1 mr-2";
+      
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+      
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.style.display = 'none';
+      
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteNote(note._id);
+      
+        editButton.onclick = () => {
+          noteContent.style.display = 'none';
+          editInput.style.display = 'block';
+          editButton.style.display = 'none';
+          saveButton.style.display = 'inline';
+        };
+      
+        saveButton.onclick = () => {
+          const updatedContent = editInput.value.trim();
+          if (updatedContent) {
+            fetch(`http://localhost:3001/notes/${note._id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: updatedContent })
+            })
+              .then(() => fetchNotes());
+          }
+        };
+      
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = "flex gap-2 ml-4";
+        buttonGroup.appendChild(editButton);
+        buttonGroup.appendChild(saveButton);
+        buttonGroup.appendChild(deleteButton);
+      
+        noteElement.appendChild(noteContent);
+        noteElement.appendChild(editInput);
+        noteElement.appendChild(buttonGroup);
+      
         notesList.appendChild(noteElement);
       });
     });
