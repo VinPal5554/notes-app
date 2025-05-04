@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
 import mongoose from 'mongoose';
-import Note from './noteModel'; // assuming same folder
+import Note from './noteModel'; 
+import Category from './categoryModel'; 
 
 mongoose.connect('mongodb://127.0.0.1:27017/notes-app')
   .then(() => console.log('MongoDB connected'))
@@ -18,13 +19,26 @@ app.use(express.json());
 // Serve static files from "public" folder
 app.use(express.static(path.join(__dirname, '../frontend/public')));
 
-//const notes: string[] = [];
+// Get all categories
+app.get('/categories', async (_req, res) => {
+  const categories = await Category.find();
+  res.json(categories);
+});
 
-// API ROUTES
+// Create a new category
+app.post('/categories', async (req, res) => {
+  const { name, color } = req.body;
+  try {
+    const newCategory = await Category.create({ name, color });
+    res.json(newCategory);
+  } catch (err) {
+    res.status(400).json({ message: 'Category creation failed', error: err });
+  }
+})
 
 // GET route for notes
 app.get('/notes', async (_req: Request, res: Response): Promise<void> => {
-  const notes = await Note.find();
+  const notes = await Note.find().populate('category');
   res.json(notes);
 });
 
