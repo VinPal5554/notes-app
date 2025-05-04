@@ -10,6 +10,14 @@
   <div class="max-w-3xl mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
     <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Notebook - By Vinay Pal</h1>
 
+    <select 
+  id="filter-category" 
+  class="px-4 py-2 border rounded" 
+  onchange="filterNotes()">
+  <option value="">All Categories</option>
+</select>
+
+
     <!-- Note Input and Category Dropdown -->
     <div class="flex gap-4 mb-6 items-center">
       <input type="text" id="note-input" placeholder="Enter note" class="flex-grow p-3 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out" />

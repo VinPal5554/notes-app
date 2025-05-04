@@ -37,8 +37,25 @@ app.post('/categories', async (req, res) => {
 })
 
 // GET route for notes
-app.get('/notes', async (_req: Request, res: Response): Promise<void> => {
-  const notes = await Note.find().populate('category');
+app.get('/notes', async (req: Request, res: Response) => {
+  const { category, sortBy } = req.query;
+
+  let filter: any = {};
+  
+  // Filter by category if provided
+  if (category) {
+    filter.category = category;
+  }
+
+  // Sort by recently added (createdAt) if specified
+  const sortOptions: any = {};
+  if (sortBy === 'recent') {
+    sortOptions.createdAt = -1;  // Descending order for most recent first
+  } else if (sortBy === 'oldest') {
+    sortOptions.createdAt = 1;  // Ascending order for oldest first
+  }
+
+  const notes = await Note.find(filter).sort(sortOptions);
   res.json(notes);
 });
 
