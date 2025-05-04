@@ -6,29 +6,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Notes App</title>
 </head>
-<body>
-  <div class="max-w-xl mx-auto mt-10">
-    <h1 class="text-3xl font-bold text-center mb-6">Notes App</h1>
-    
+<body class="bg-gray-100">
+  <div class="max-w-3xl mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Notebook - By Vinay Pal</h1>
+
     <!-- Note Input and Category Dropdown -->
-    <div class="flex gap-2 mb-4">
-      <input type="text" id="note-input" placeholder="Enter note" class="flex-grow px-4 py-2 border rounded" />
-      <select id="category-select" class="px-4 py-2 border rounded">
+    <div class="flex gap-4 mb-6 items-center">
+      <input type="text" id="note-input" placeholder="Enter note" class="flex-grow p-3 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out" />
+      <select id="category-select" class="px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out">
         <option value="">Select Category</option>
         <!-- Categories will be populated dynamically here -->
       </select>
-      <button onclick="addNote()" class="bg-blue-500 text-white px-4 py-2 rounded">Add Note</button>
+      <button onclick="addNote()" class="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out">Add Note</button>
     </div>
 
     <!-- Add Category Form -->
-    <div class="flex gap-2 mb-4">
-      <input type="text" id="category-name" placeholder="New Category Name" class="flex-grow px-4 py-2 border rounded" />
-      <input type="color" id="category-color" class="px-4 py-2 border rounded" />
-      <button onclick="addCategory()" class="bg-green-500 text-white px-4 py-2 rounded">Add Category</button>
+    <div class="flex gap-4 mb-6 items-center">
+      <input type="text" id="category-name" placeholder="New Category Name" class="flex-grow p-3 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 transition ease-in-out" />
+      <input type="color" id="category-color" class="p-3 border rounded-lg shadow-md focus:outline-none" />
+      <button onclick="addCategory()" class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition ease-in-out">Add Category</button>
     </div>
 
     <!-- Notes List -->
-    <div id="notes-list" class="space-y-2"></div>
+    <div id="notes-list" class="space-y-4"></div>
   </div>
 
   <script src="app.js"></script>
