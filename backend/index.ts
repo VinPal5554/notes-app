@@ -6,7 +6,9 @@ import mongoose from 'mongoose';
 import Note from './noteModel'; 
 import Category from './categoryModel'; 
 
-mongoose.connect('mongodb://127.0.0.1:27017/notes-app')
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/notes-app';
+
+mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
@@ -17,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from "public" folder
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(path.join(__dirname, 'frontend/public')));
 
 // Get all categories
 app.get('/categories', async (_req, res) => {
@@ -116,7 +118,7 @@ app.put('/notes/:id', async (req: Request, res: Response): Promise<void> => {
 
 
 // Start the server
-const port = 3001;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

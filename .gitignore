@@ -13,13 +13,15 @@ dist/
 *.env
 
 # MongoDB 
-db/             
+db/        
+data/db/     
 
 # IDE and editor settings
 .vscode/            
 
 # OS-specific files     
-Thumbs.db          
+Thumbs.db
+.DS_Store     
 
 # Logs
 logs/                
@@ -28,3 +30,13 @@ logs/
 # Temporary files
 *.bak              
 *.tmp             
+
+# VSCode
+.vscode/
+
+# Docker-related files
+docker-compose.override.yml
+
+# Tailwind
+.tailwindcache/
+

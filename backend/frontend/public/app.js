@@ -1,6 +1,6 @@
 // Function to fetch notes from the backend and display them
 function fetchNotes() {
-  fetch('http://localhost:3001/notes')
+  fetch('http://localhost:3000/notes')
     .then(response => response.json())
     .then(data => displayNotes(data));
 }
@@ -55,7 +55,7 @@ function displayNotes(data) {
     saveButton.onclick = () => {
       const updatedContent = editInput.value.trim();
       if (updatedContent) {
-        fetch(`http://localhost:3001/notes/${note._id}`, {
+        fetch(`http://localhost:3000/notes/${note._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ content: updatedContent, category: note.category?._id })
@@ -86,7 +86,7 @@ function displayNotes(data) {
 }
 
 function deleteNote(id) {
-  fetch(`http://localhost:3001/notes/${id}`, {
+  fetch(`http://localhost:3000/notes/${id}`, {
     method: 'DELETE'
   })
     .then(response => response.json())
@@ -103,7 +103,7 @@ function deleteNote(id) {
     const categoryId = categorySelect.value;
   
     if (noteText) {
-      fetch('http://localhost:3001/notes', {
+      fetch('http://localhost:3000/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ note: noteText, category: categoryId })
@@ -125,7 +125,7 @@ function deleteNote(id) {
     const categoryColor = categoryColorInput.value;
   
     if (categoryName) {
-      fetch('http://localhost:3001/categories', {
+      fetch('http://localhost:3000/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: categoryName, color: categoryColor })
@@ -143,7 +143,7 @@ function deleteNote(id) {
   
 
   function loadCategories() {
-    fetch('http://localhost:3001/categories')
+    fetch('http://localhost:3000/categories')
       .then(res => res.json())
       .then(data => {
         const categorySelect = document.getElementById('category-select');
@@ -163,7 +163,7 @@ function deleteNote(id) {
   function filterNotes() {
     const selectedCategoryId = document.getElementById('filter-category').value;
   
-    fetch('http://localhost:3001/notes')
+    fetch('http://localhost:3000/notes')
       .then(res => res.json())
       .then(notes => {
         const filteredNotes = selectedCategoryId
@@ -175,7 +175,7 @@ function deleteNote(id) {
     }  
 
   function loadFilterCategories() {
-    fetch('http://localhost:3001/categories')
+    fetch('http://localhost:3000/categories')
       .then(res => res.json())
       .then(data => {
         const filterSelect = document.getElementById('filter-category');
