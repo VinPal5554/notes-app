@@ -7,7 +7,7 @@
 - RESTful API built with Express
 - Clean layout with Tailwind CSS
 
-# Installation steps
+# Installation (Manual)
 **Clone the repository:**
 ```
 git clone https://github.com/VinPal5554/notes-app.git
@@ -25,4 +25,15 @@ net start MongoDB
 ```
 cd backend
 npx ts-node index.ts
+```
+
+# Installation (Docker)
+**Clone the repository:**
+```
+git clone https://github.com/VinPal5554/notes-app.git
+cd notes-app\backend
+```
+**Run via Docker Compose:**
+```
+docker-compose up --build
 ```
